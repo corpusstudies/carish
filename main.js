@@ -1,6 +1,6 @@
 "use strict";
-let oldTimeStamp;
-let windowSize;
+let oldTimeStamp = 0;
+let windowSize = { height: 0, width: 0 };
 
 window.onload = init;
 
