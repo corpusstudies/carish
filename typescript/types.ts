@@ -3,8 +3,13 @@ export type WindowSize = {
   width: number;
 }
 
-export type State = {
+export type WindowSizeState = {
   getWindowSize: () => WindowSize;
+  resetToCurrentWindowSize: () => WindowSize;
+}
+
+export type State = {
+  windowSizeState: WindowSizeState;
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
   previousTimeStamp: number;

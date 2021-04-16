@@ -1,18 +1,18 @@
 import { makeStepFrame } from './draw.js';
-import { State, WindowSize } from './types.js'
-
-let windowSize: WindowSize = { height: 0, width: 0 };
+import { State, WindowSize, WindowSizeState } from './types.js'
+import { makeWindowSizeState } from './window-size-state.js';
 
 export function init() {
-  setWindowSize();
-  const canvas = createCanvas();
-  window.addEventListener('resize', makeWindowResizeHandler(canvas));
+  const windowSizeState = makeWindowSizeState();
+  const canvas = createCanvas(windowSizeState.getWindowSize());
+  window.addEventListener('resize',
+    makeWindowResizeHandler(windowSizeState, canvas));
 
   const context = canvas.getContext('2d');
   if (context) {
     let state: State =
     {
-      getWindowSize: () => windowSize,
+      windowSizeState,
       context,
       canvas,
       previousTimeStamp: 0
@@ -23,7 +23,7 @@ export function init() {
   }
 }
 
-function createCanvas() {
+function createCanvas(windowSize: WindowSize) {
   let canvas = document.createElement('canvas');
   canvas.setAttribute('width', windowSize.width.toString());
   canvas.setAttribute('height', windowSize.height.toString());
@@ -32,14 +32,12 @@ function createCanvas() {
   return canvas;
 }
 
-function makeWindowResizeHandler(canvas: HTMLCanvasElement) {
+function makeWindowResizeHandler(
+  windowSizeState: WindowSizeState,
+  canvas: HTMLCanvasElement) {
   return () => {
-    setWindowSize();
+    const windowSize = windowSizeState.resetToCurrentWindowSize();
     canvas.setAttribute('width', windowSize.width.toString());
     canvas.setAttribute('height', windowSize.height.toString());
   };
-}
-
-function setWindowSize() {
-  windowSize = { height: window.innerHeight, width: window.innerWidth };
 }

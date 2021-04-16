@@ -2,7 +2,7 @@ import { State, WindowSize } from './types.js'
 
 export function makeStepFrame(state: State) {
   return (timeStamp: number) => {
-    let windowSize = state.getWindowSize();
+    let windowSize = state.windowSizeState.getWindowSize();
     let fpsText = '';
     let millisecondsPassed = timeStamp - state.previousTimeStamp;
     const context = state.context;
