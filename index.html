@@ -56,15 +56,7 @@
       context.fillStyle = 'black';
       context.fillText(fpsText, 0, textMetrics.actualBoundingBoxAscent);
 
-      draw();
-
       window.requestAnimationFrame(stepFrame);
-    }
-
-    function draw() {
-      let randomColor = Math.random() > 0.5 ? '#ff8080' : '#ff8080';
-      context.fillStyle = randomColor;
-      context.fillRect(100, 50, 200, 175);
     }
   </script>
 </body>
