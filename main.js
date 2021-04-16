@@ -4,7 +4,6 @@ let context;
 let oldTimeStamp;
 let firstRender = true;
 let windowSize;
-setWindowSize();
 
 window.onload = init;
 window.addEventListener('resize', setWindowSize);
@@ -13,6 +12,7 @@ function init() {
   canvas = document.getElementById('canvas');
   context = canvas.getContext('2d');
 
+  setWindowSize();
   window.requestAnimationFrame(stepFrame);
 }
 
