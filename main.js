@@ -3,14 +3,22 @@ let canvas;
 let context;
 let oldTimeStamp;
 let firstRender = true;
+let windowSize;
+setWindowSize();
 
 window.onload = init;
+window.addEventListener('resize', setWindowSize);
 
 function init() {
   canvas = document.getElementById('canvas');
   context = canvas.getContext('2d');
 
   window.requestAnimationFrame(stepFrame);
+}
+
+function setWindowSize() {
+  windowSize = {height: window.innerHeight, width: window.innerWidth};
+  console.log(windowSize);
 }
 
 function stepFrame(timeStamp) {
