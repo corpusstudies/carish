@@ -1,7 +1,12 @@
-export function makeStepFrame(getWindowSize, canvas, oldTimeStamp) {
-  return (timeStamp) => {
+import { WindowSize } from './types.js'
+
+export function makeStepFrame(
+  getWindowSize: () => WindowSize,
+  context: CanvasRenderingContext2D,
+  oldTimeStamp: number
+) {
+  return (timeStamp: number) => {
     let windowSize = getWindowSize();
-    let context = canvas.getContext('2d');
     let fpsText = '';
     let millisecondsPassed = timeStamp - oldTimeStamp;
 
@@ -18,8 +23,8 @@ export function makeStepFrame(getWindowSize, canvas, oldTimeStamp) {
 
     fpsText = 'FPS: ' + fps
       + ' ' + windowSize.width + 'x' + windowSize.height;
-      // + ' Βίβλος γενέσεως Ἰησοῦ '
-      // + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
+    // + ' Βίβλος γενέσεως Ἰησοῦ '
+    // + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
 
     context.font = '30px SBL Hebrew';
     context.fillStyle = 'black';
@@ -34,6 +39,6 @@ export function makeStepFrame(getWindowSize, canvas, oldTimeStamp) {
     context.fillStyle = 'black';
     context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
 
-    window.requestAnimationFrame(makeStepFrame(getWindowSize, canvas, timeStamp));
+    window.requestAnimationFrame(makeStepFrame(getWindowSize, context, timeStamp));
   }
 }

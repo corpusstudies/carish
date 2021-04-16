@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "module": "ESNext",
-    "outDir": "output",
-    "sourceMap": true
+    "strict": true,
+    "sourceMap": true,
+    "outDir": "output"
   },
+  "compileOnSave": true,
   "include": ["typescript/**/*"]
 }

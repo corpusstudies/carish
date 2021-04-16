@@ -1,12 +1,17 @@
 import { makeStepFrame } from './draw.js';
+import { WindowSize } from './types.js'
 
-let windowSize = { height: 0, width: 0 };
+let windowSize: WindowSize = { height: 0, width: 0 };
 
 export function init() {
   setWindowSize();
   const canvas = createCanvas();
   window.addEventListener('resize', makeWindowResizeHandler(canvas));
-  window.requestAnimationFrame(makeStepFrame(() => windowSize, canvas, 0));
+
+  const context = canvas.getContext('2d');
+  if (context) {
+    window.requestAnimationFrame(makeStepFrame(() => windowSize, context, 0));
+  }
 }
 
 function createCanvas() {
@@ -18,11 +23,11 @@ function createCanvas() {
   return canvas;
 }
 
-function makeWindowResizeHandler(canvas) {
+function makeWindowResizeHandler(canvas: HTMLCanvasElement) {
   return () => {
     setWindowSize();
-    canvas.setAttribute('width', windowSize.width);
-    canvas.setAttribute('height', windowSize.height);
+    canvas.setAttribute('width', windowSize.width.toString());
+    canvas.setAttribute('height', windowSize.height.toString());
   };
 }
 
