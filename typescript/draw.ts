@@ -1,14 +1,11 @@
-import { WindowSize } from './types.js'
+import { State, WindowSize } from './types.js'
 
-export function makeStepFrame(
-  getWindowSize: () => WindowSize,
-  context: CanvasRenderingContext2D,
-  oldTimeStamp: number
-) {
+export function makeStepFrame(state: State) {
   return (timeStamp: number) => {
-    let windowSize = getWindowSize();
+    let windowSize = state.getWindowSize();
     let fpsText = '';
-    let millisecondsPassed = timeStamp - oldTimeStamp;
+    let millisecondsPassed = timeStamp - state.previousTimeStamp;
+    const context = state.context;
 
     context.fillStyle = 'black';
     context.fillRect(0, 0, windowSize.width, windowSize.height);
@@ -39,6 +36,6 @@ export function makeStepFrame(
     context.fillStyle = 'black';
     context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
 
-    window.requestAnimationFrame(makeStepFrame(getWindowSize, context, timeStamp));
+    window.requestAnimationFrame(makeStepFrame({...state, previousTimeStamp: timeStamp}));
   }
 }

@@ -1,5 +1,5 @@
 import { makeStepFrame } from './draw.js';
-import { WindowSize } from './types.js'
+import { State, WindowSize } from './types.js'
 
 let windowSize: WindowSize = { height: 0, width: 0 };
 
@@ -10,7 +10,14 @@ export function init() {
 
   const context = canvas.getContext('2d');
   if (context) {
-    window.requestAnimationFrame(makeStepFrame(() => windowSize, context, 0));
+    let state: State =
+    {
+      getWindowSize: () => windowSize,
+      context,
+      canvas,
+      previousTimeStamp: 0
+    }
+    window.requestAnimationFrame(makeStepFrame(state));
   } else {
     console.error('Unable to get 2D context for canvas');
   }
