@@ -37,10 +37,13 @@
 
       // Draw number to the screen
       context.fillStyle = 'white';
-      context.fillRect(0, 0, 200, 100);
+      context.fillRect(0, 0, 800, 100);
       context.font = '25px Arial';
       context.fillStyle = 'black';
-      context.fillText("FPS: " + fps, 10, 30);
+      context.fillText('FPS: ' + fps
+        + ' Βίβλος γενέσεως Ἰησοῦ '
+        + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים'
+        , 10, 30);
 
       // Perform the drawing operation
       draw();
