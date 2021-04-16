@@ -11,8 +11,8 @@ export function init() {
 
 function createCanvas() {
   let canvas = document.createElement('canvas');
-  canvas.setAttribute('width', windowSize.width);
-  canvas.setAttribute('height', windowSize.height);
+  canvas.setAttribute('width', windowSize.width.toString());
+  canvas.setAttribute('height', windowSize.height.toString());
   canvas.setAttribute('style', 'display: block');
   document.body.appendChild(canvas);
   return canvas;
