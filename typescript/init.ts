@@ -11,6 +11,8 @@ export function init() {
   const context = canvas.getContext('2d');
   if (context) {
     window.requestAnimationFrame(makeStepFrame(() => windowSize, context, 0));
+  } else {
+    console.error('Unable to get 2D context for canvas');
   }
 }
 
