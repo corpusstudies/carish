@@ -6,18 +6,33 @@ let firstRender = true;
 let windowSize;
 
 window.onload = init;
-window.addEventListener('resize', setWindowSize);
+window.addEventListener('resize', handleWindowResize);
 
 function init() {
-  canvas = document.getElementById('canvas');
+  setWindowSize();
+  createCanvas();
   context = canvas.getContext('2d');
 
-  setWindowSize();
   window.requestAnimationFrame(stepFrame);
 }
 
+function createCanvas() {
+  canvas = document.createElement('canvas');
+  canvas.setAttribute('id', 'canvas');
+  canvas.setAttribute('width', windowSize.width);
+  canvas.setAttribute('height', windowSize.height);
+  canvas.setAttribute('style', 'display: block');
+  document.body.appendChild(canvas);
+}
+
+function handleWindowResize() {
+  setWindowSize();
+  canvas.setAttribute('width', windowSize.width);
+  canvas.setAttribute('height', windowSize.height);
+}
+
 function setWindowSize() {
-  windowSize = {height: window.innerHeight, width: window.innerWidth};
+  windowSize = { height: window.innerHeight, width: window.innerWidth };
   console.log(windowSize);
 }
 
