@@ -1,5 +1,6 @@
-export function makeStepFrame(windowSize, canvas, oldTimeStamp) {
+export function makeStepFrame(getWindowSize, canvas, oldTimeStamp) {
   return (timeStamp) => {
+    let windowSize = getWindowSize();
     let context = canvas.getContext('2d');
     let fpsText = '';
     let millisecondsPassed = timeStamp - oldTimeStamp;
@@ -16,8 +17,9 @@ export function makeStepFrame(windowSize, canvas, oldTimeStamp) {
     }
 
     fpsText = 'FPS: ' + fps
-      + ' Βίβλος γενέσεως Ἰησοῦ '
-      + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
+      + ' ' + windowSize.width + 'x' + windowSize.height;
+      // + ' Βίβλος γενέσεως Ἰησοῦ '
+      // + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
 
     context.font = '30px SBL Hebrew';
     context.fillStyle = 'black';
@@ -32,6 +34,6 @@ export function makeStepFrame(windowSize, canvas, oldTimeStamp) {
     context.fillStyle = 'black';
     context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
 
-    window.requestAnimationFrame(makeStepFrame(windowSize, canvas, timeStamp));
+    window.requestAnimationFrame(makeStepFrame(getWindowSize, canvas, timeStamp));
   }
 }

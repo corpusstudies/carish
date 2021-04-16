@@ -6,7 +6,7 @@ export function init() {
   setWindowSize();
   const canvas = createCanvas();
   window.addEventListener('resize', makeWindowResizeHandler(canvas));
-  window.requestAnimationFrame(makeStepFrame(windowSize, canvas, 0));
+  window.requestAnimationFrame(makeStepFrame(() => windowSize, canvas, 0));
 }
 
 function createCanvas() {
