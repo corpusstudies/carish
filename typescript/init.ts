@@ -9,18 +9,19 @@ export function init() {
     makeWindowResizeHandler(windowSizeState, canvas));
 
   const context = canvas.getContext('2d');
-  if (context) {
-    let state: State =
-    {
-      windowSizeState,
-      context,
-      canvas,
-      previousTimeStamp: 0
-    }
-    window.requestAnimationFrame(makeStepFrame(state));
-  } else {
+  if (!context) {
     console.error('Unable to get 2D context for canvas');
+    return;
   }
+
+  let state: State =
+  {
+    windowSizeState,
+    context,
+    canvas,
+    previousTimeStamp: 0
+  }
+  window.requestAnimationFrame(makeStepFrame(state));
 }
 
 function createCanvas(windowSize: WindowSize) {
