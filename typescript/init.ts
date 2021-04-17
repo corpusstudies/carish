@@ -4,8 +4,8 @@ import { State, WindowSize, WindowSizeState } from './types.js'
 import { makeWindowSizeState } from './window-size-state.js';
 
 export function init() {
-  const valueCount = 2;
-  const columnCount = 4;
+  const valueCount = 4;
+  const columnCount = 5;
   const possibleValues = enumerateValues(valueCount);
   const arrayCombos = enumerateList(possibleValues, columnCount);
   console.log(arrayCombos);
@@ -29,12 +29,15 @@ export function init() {
   for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
     const values = arrayCombos[valueIndex];
     for (let columnIndex = 0; columnIndex < values.length; columnIndex += 1) {
-      console.log({ valueIndex, columnIndex });
       const rowByteCount = values.length * 4;
       const pixelIndex = rowByteCount * valueIndex;
       let color;
       if (values[columnIndex] === 0) {
         context.fillStyle = 'black';
+      } else if (values[columnIndex] === 1) {
+        context.fillStyle = 'blue';
+      } else if (values[columnIndex] === 2) {
+        context.fillStyle = 'green';
       } else {
         context.fillStyle = 'red';
       }
