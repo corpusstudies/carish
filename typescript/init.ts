@@ -38,7 +38,11 @@ export function init() {
     context,
     canvas,
     previousTimeStamp: 0,
-    wheelState
+    wheelState,
+    scrollPosition: {
+      xOffset: 0,
+      yOffset: 0
+    }
   };
 
   window.addEventListener('resize',

@@ -18,10 +18,16 @@ export type WheelState = {
   addWheelEvent: (wheel: Wheel) => void;
 }
 
+export type ScrollPosition = {
+  xOffset: number;
+  yOffset: number;
+};
+
 export type State = {
   windowSizeState: WindowSizeState;
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
   previousTimeStamp: number;
   wheelState: WheelState;
+  scrollPosition: ScrollPosition;
 }

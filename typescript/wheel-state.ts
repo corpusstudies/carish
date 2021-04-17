@@ -16,8 +16,8 @@ export function makeWheelState() {
 
 export function combineWheelEvents(wheelEvents: Wheel[]) {
   const combine = (previousValue: Wheel, currentValue: Wheel) => ({
-    deltaX: previousValue.deltaX + currentValue.deltaX,
-    deltaY: previousValue.deltaY + currentValue.deltaY
+    deltaX: previousValue.deltaX - currentValue.deltaX,
+    deltaY: previousValue.deltaY - currentValue.deltaY
   })
   const initialValue = {
     deltaX: 0,

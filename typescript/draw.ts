@@ -7,6 +7,7 @@ export function makeStepFrame(state: State) {
     let millisecondsPassed = timeStamp - state.previousTimeStamp;
     const context = state.context;
 
+    context.setTransform(1, 0, 0, 1, 0, 0);
     context.fillStyle = 'black';
     context.fillRect(0, 0, windowSize.width, windowSize.height);
 
@@ -24,25 +25,56 @@ export function makeStepFrame(state: State) {
       + ' x '
       + wheel.deltaY.toString();
 
-/*
-    fpsText = 'FPS: ' + fps
-      // + ' ' + windowSize.width + 'x' + windowSize.height;
-      + ' Βίβλος γενέσεως Ἰησοῦ '
-      + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
-*/
+    const clamp = (n: number, min: number, max: number) =>
+      Math.max(Math.min(n, max), min);
+    const oldScrollPosition = state.scrollPosition;
+    const objectSize = {
+      width: 500,
+      height: 500
+    }
+    const scrollPosition = {
+      xOffset:
+        clamp(
+          oldScrollPosition.xOffset + wheel.deltaX,
+          -Math.abs(objectSize.width),
+          Math.abs(windowSize.width),
+        ),
+      yOffset:
+        clamp(
+          oldScrollPosition.yOffset + wheel.deltaY,
+          -Math.abs(objectSize.height),
+          Math.abs(windowSize.height)
+        )
+    };
+    context.setTransform(1, 0, 0, 1,
+      scrollPosition.xOffset, scrollPosition.yOffset);
+    context.fillStyle = 'red';
+    context.fillRect(0, 0, objectSize.width, objectSize.height);
 
-    context.font = '30px SBL Hebrew';
-    context.fillStyle = 'black';
-    let textMetrics = context.measureText(fpsText);
-    context.fillStyle = '#ddffdd';
-    context.fillRect(
-      0, 0,
-      Math.abs(textMetrics.actualBoundingBoxLeft) + Math.abs(textMetrics.actualBoundingBoxRight),
-      Math.abs(textMetrics.actualBoundingBoxAscent) + Math.abs(textMetrics.actualBoundingBoxDescent));
-
-    context.fillStyle = 'black';
-    context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
-
-    window.requestAnimationFrame(makeStepFrame({...state, previousTimeStamp: timeStamp}));
+    /*
+        fpsText = 'FPS: ' + fps
+          // + ' ' + windowSize.width + 'x' + windowSize.height;
+          + ' Βίβλος γενέσεως Ἰησοῦ '
+          + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
+    */
+    /*
+        context.font = '30px SBL Hebrew';
+        context.fillStyle = 'black';
+        let textMetrics = context.measureText(fpsText);
+        context.fillStyle = '#ddffdd';
+        context.fillRect(
+          0, 0,
+          Math.abs(textMetrics.actualBoundingBoxLeft) + Math.abs(textMetrics.actualBoundingBoxRight),
+          Math.abs(textMetrics.actualBoundingBoxAscent) + Math.abs(textMetrics.actualBoundingBoxDescent));
+    
+        context.fillStyle = 'black';
+        context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
+    */
+    const newState = {
+      ...state,
+      previousTimeStamp: timeStamp,
+      scrollPosition
+    }
+    window.requestAnimationFrame(makeStepFrame(newState));
   }
 }
