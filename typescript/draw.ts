@@ -19,9 +19,9 @@ export function makeStepFrame(state: State) {
     }
 
     fpsText = 'FPS: ' + fps
-      + ' ' + windowSize.width + 'x' + windowSize.height;
-    // + ' Βίβλος γενέσεως Ἰησοῦ '
-    // + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
+      // + ' ' + windowSize.width + 'x' + windowSize.height;
+      + ' Βίβλος γενέσεως Ἰησοῦ '
+      + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
 
     context.font = '30px SBL Hebrew';
     context.fillStyle = 'black';
@@ -32,7 +32,6 @@ export function makeStepFrame(state: State) {
       Math.abs(textMetrics.actualBoundingBoxLeft) + Math.abs(textMetrics.actualBoundingBoxRight),
       Math.abs(textMetrics.actualBoundingBoxAscent) + Math.abs(textMetrics.actualBoundingBoxDescent));
 
-    context.font = '30px SBL Hebrew';
     context.fillStyle = 'black';
     context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
 

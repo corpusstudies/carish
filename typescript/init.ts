@@ -1,12 +1,21 @@
 import { makeStepFrame } from './draw.js';
+import { enumerateList, enumerateValues } from './enumerate.js';
 import { State, WindowSize, WindowSizeState } from './types.js'
 import { makeWindowSizeState } from './window-size-state.js';
 
 export function init() {
-  const windowSizeState = makeWindowSizeState();
-  const canvas = createCanvas(windowSizeState.getWindowSize());
-  window.addEventListener('resize',
-    makeWindowResizeHandler(windowSizeState, canvas));
+  const valueCount = 2;
+  const columnCount = 4;
+  const possibleValues = enumerateValues(valueCount);
+  const arrayCombos = enumerateList(possibleValues, columnCount);
+  console.log(arrayCombos);
+
+  const scale = 50;
+  const windowSize = {
+    width: columnCount * scale,
+    height: arrayCombos.length * scale
+  };
+  const canvas = createCanvas(windowSize);
 
   const context = canvas.getContext('2d');
   if (!context) {
@@ -14,14 +23,39 @@ export function init() {
     return;
   }
 
-  let state: State =
-  {
-    windowSizeState,
-    context,
-    canvas,
-    previousTimeStamp: 0
+  context.scale(scale, scale);
+
+  // const imageData = context.createImageData(columns, values.length);
+  for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
+    const values = arrayCombos[valueIndex];
+    for (let columnIndex = 0; columnIndex < values.length; columnIndex += 1) {
+      console.log({ valueIndex, columnIndex });
+      const rowByteCount = values.length * 4;
+      const pixelIndex = rowByteCount * valueIndex;
+      let color;
+      if (values[columnIndex] === 0) {
+        context.fillStyle = 'black';
+      } else {
+        context.fillStyle = 'red';
+      }
+      context.fillRect(columnIndex, valueIndex, 1, 1);
+      // imageData.data[pixelIndex + 0] = color;
+      // imageData.data[pixelIndex + 1] = color;
+      // imageData.data[pixelIndex + 2] = color;
+      // imageData.data[pixelIndex + 3] = 255;
+    }
   }
-  window.requestAnimationFrame(makeStepFrame(state));
+  // context.putImageData(imageData, 0, 0);
+
+
+  // let state: State =
+  // {
+  //   windowSizeState,
+  //   context,
+  //   canvas,
+  //   previousTimeStamp: 0
+  // }
+  // window.requestAnimationFrame(makeStepFrame(state));
 }
 
 function createCanvas(windowSize: WindowSize) {
