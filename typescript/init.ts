@@ -4,16 +4,19 @@ import { State, WindowSize, WindowSizeState } from './types.js'
 import { makeWindowSizeState } from './window-size-state.js';
 
 export function init() {
-  const valueCount = 4;
-  const columnCount = 5;
+  const valueCount = 2;
+  const columnCount = 12;
   const possibleValues = enumerateValues(valueCount);
   const arrayCombos = enumerateList(possibleValues, columnCount);
   console.log(arrayCombos);
 
-  const scale = 50;
+  const scale = {
+    width: 20,
+    height: 4
+  };
   const windowSize = {
-    width: columnCount * scale,
-    height: arrayCombos.length * scale
+    width: columnCount * scale.width,
+    height: arrayCombos.length * scale.height
   };
   const canvas = createCanvas(windowSize);
 
@@ -23,7 +26,7 @@ export function init() {
     return;
   }
 
-  context.scale(scale, scale);
+  context.scale(scale.width, scale.height);
 
   // const imageData = context.createImageData(columns, values.length);
   for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
