@@ -18,10 +18,17 @@ export function makeStepFrame(state: State) {
       fps = 1000;
     }
 
+    const wheel = state.wheelState.getWheel();
+    fpsText
+      = wheel.deltaX.toString()
+      + ' x '
+      + wheel.deltaY.toString();
+/*
     fpsText = 'FPS: ' + fps
       // + ' ' + windowSize.width + 'x' + windowSize.height;
       + ' Βίβλος γενέσεως Ἰησοῦ '
       + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
+*/
 
     context.font = '30px SBL Hebrew';
     context.fillStyle = 'black';
