@@ -18,11 +18,12 @@ export function makeStepFrame(state: State) {
       fps = 1000;
     }
 
-    const wheel = state.wheelState.getWheel();
+    const wheel = state.wheelState.consumeWheelEvents();
     fpsText
       = wheel.deltaX.toString()
       + ' x '
       + wheel.deltaY.toString();
+
 /*
     fpsText = 'FPS: ' + fps
       // + ' ' + windowSize.width + 'x' + windowSize.height;

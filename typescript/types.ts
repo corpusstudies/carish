@@ -14,8 +14,8 @@ export type Wheel = {
 };
 
 export type WheelState = {
-  getWheel: () => Wheel;
-  setWheel: (wheel: Wheel) => void;
+  consumeWheelEvents: () => Wheel;
+  addWheelEvent: (wheel: Wheel) => void;
 }
 
 export type State = {

@@ -43,12 +43,12 @@ export function init() {
 
   window.addEventListener('resize',
     makeWindowResizeHandler(windowSizeState, canvas));
+
   canvas.addEventListener('wheel', (event) => {
     event.preventDefault();
 
     const { deltaX, deltaY, deltaMode } = event;
-    state.wheelState.setWheel({ deltaX, deltaY });
-    console.log({ deltaX, deltaY, deltaMode });
+    state.wheelState.addWheelEvent({ deltaX, deltaY });
   });
 
   /*
