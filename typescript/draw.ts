@@ -36,19 +36,19 @@ export function makeStepFrame(state: State) {
       xOffset:
         clamp(
           oldScrollPosition.xOffset + wheel.deltaX,
-          -Math.abs(objectSize.width),
-          Math.abs(windowSize.width),
+          -(Math.abs(objectSize.width - 1) - 2),
+          Math.abs(windowSize.width - 1) - 2,
         ),
       yOffset:
         clamp(
           oldScrollPosition.yOffset + wheel.deltaY,
-          -Math.abs(objectSize.height),
-          Math.abs(windowSize.height)
+          -(Math.abs(objectSize.height) - 2),
+          Math.abs(windowSize.height) - 2
         )
     };
     context.setTransform(1, 0, 0, 1,
       scrollPosition.xOffset, scrollPosition.yOffset);
-    context.fillStyle = 'red';
+    context.fillStyle = '#ff6666';
     context.fillRect(0, 0, objectSize.width, objectSize.height);
 
     /*
