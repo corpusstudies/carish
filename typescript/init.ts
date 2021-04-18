@@ -6,7 +6,7 @@ import { makeWindowSizeState } from './window-size-state.js';
 
 export function init() {
   const valueCount = 2;
-  const columnCount = 12;
+  const columnCount = 8;
   const possibleValues = enumerateValues(valueCount);
   const arrayCombos = enumerateList(possibleValues, columnCount);
   console.log(arrayCombos);
