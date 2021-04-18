@@ -1,4 +1,4 @@
-import { State, WindowSize } from './types.js'
+import { State, Size } from './types.js'
 
 export function makeStepFrame(state: State) {
   return (timeStamp: number) => {
@@ -31,7 +31,7 @@ export function makeStepFrame(state: State) {
     const objectSize = {
       width: 500,
       height: 500
-    }
+    };
     const scrollPosition = {
       xOffset:
         clamp(

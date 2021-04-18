@@ -1,7 +1,7 @@
-import { WindowSize, WindowSizeState } from "./types";
+import { Size, WindowSizeState } from "./types";
 
 export function makeWindowSizeState(): WindowSizeState {
-  let windowSize: WindowSize = {
+  let windowSize: Size = {
     height: window.innerHeight,
     width: window.innerWidth
   };

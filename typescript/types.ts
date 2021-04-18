@@ -1,11 +1,11 @@
-export type WindowSize = {
+export type Size = {
   height: number;
   width: number;
 }
 
 export type WindowSizeState = {
-  getWindowSize: () => WindowSize;
-  resetToCurrentWindowSize: () => WindowSize;
+  getWindowSize: () => Size;
+  resetToCurrentWindowSize: () => Size;
 }
 
 export type Wheel = {
