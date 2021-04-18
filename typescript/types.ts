@@ -23,11 +23,17 @@ export type ScrollPosition = {
   yOffset: number;
 };
 
+export type Content = {
+  columnCount: number;
+  arrayCombos: number[][];
+};
+
 export type State = {
-  windowSizeState: WindowSizeState;
   canvas: HTMLCanvasElement;
+  content: Content;
   context: CanvasRenderingContext2D;
   previousTimeStamp: number;
-  wheelState: WheelState;
   scrollPosition: ScrollPosition;
+  wheelState: WheelState;
+  windowSizeState: WindowSizeState;
 }

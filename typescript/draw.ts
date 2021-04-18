@@ -28,29 +28,55 @@ export function makeStepFrame(state: State) {
     const clamp = (n: number, min: number, max: number) =>
       Math.max(Math.min(n, max), min);
     const oldScrollPosition = state.scrollPosition;
-    const objectSize = {
-      width: 500,
-      height: 500
+
+    const { arrayCombos, columnCount } = state.content;
+    const scale = {
+      width: 20,
+      height: 20
     };
+    const contentSize = {
+      width: columnCount * scale.width,
+      height: arrayCombos.length * scale.height
+    };
+
     const scrollPosition = {
       xOffset:
         clamp(
           oldScrollPosition.xOffset - wheel.deltaX,
-          -(Math.abs(objectSize.width - 1) - 2),
+          -(Math.abs(contentSize.width - 1) - 2),
           Math.abs(windowSize.width - 1) - 2,
         ),
       yOffset:
         clamp(
           oldScrollPosition.yOffset - wheel.deltaY,
-          -(Math.abs(objectSize.height) - 2),
+          -(Math.abs(contentSize.height) - 2),
           Math.abs(windowSize.height) - 2
         )
     };
     context.setTransform(1, 0, 0, 1,
       scrollPosition.xOffset,
       scrollPosition.yOffset);
-    context.fillStyle = '#ff6666';
-    context.fillRect(0, 0, objectSize.width, objectSize.height);
+
+    context.scale(scale.width, scale.height);
+  
+    for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
+      const values = arrayCombos[valueIndex];
+      for (let columnIndex = 0; columnIndex < values.length; columnIndex += 1) {
+        const rowByteCount = values.length * 4;
+        const pixelIndex = rowByteCount * valueIndex;
+        let color;
+        if (values[columnIndex] === 0) {
+          context.fillStyle = 'black';
+        } else if (values[columnIndex] === 1) {
+          context.fillStyle = 'blue';
+        } else if (values[columnIndex] === 2) {
+          context.fillStyle = 'green';
+        } else {
+          context.fillStyle = 'red';
+        }
+        context.fillRect(columnIndex, valueIndex, 1, 1);
+      }
+    }
 
     /*
         fpsText = 'FPS: ' + fps

@@ -11,14 +11,6 @@ export function init() {
   const arrayCombos = enumerateList(possibleValues, columnCount);
   console.log(arrayCombos);
 
-  const scale = {
-    width: 20,
-    height: 4
-  };
-  const contentSize = {
-    width: columnCount * scale.width,
-    height: arrayCombos.length * scale.height
-  };
   const windowSizeState = makeWindowSizeState();
   const canvas = makeCanvas(windowSizeState.getWindowSize());
 
@@ -39,7 +31,8 @@ export function init() {
     scrollPosition: {
       xOffset: 0,
       yOffset: 0
-    }
+    },
+    content: { arrayCombos, columnCount }
   };
 
   window.addEventListener('resize',
@@ -51,27 +44,6 @@ export function init() {
     const { deltaX, deltaY, deltaMode } = event;
     state.wheelState.addWheelEvent({ deltaX, deltaY });
   });
-
-  context.scale(scale.width, scale.height);
-
-  for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
-    const values = arrayCombos[valueIndex];
-    for (let columnIndex = 0; columnIndex < values.length; columnIndex += 1) {
-      const rowByteCount = values.length * 4;
-      const pixelIndex = rowByteCount * valueIndex;
-      let color;
-      if (values[columnIndex] === 0) {
-        context.fillStyle = 'black';
-      } else if (values[columnIndex] === 1) {
-        context.fillStyle = 'blue';
-      } else if (values[columnIndex] === 2) {
-        context.fillStyle = 'green';
-      } else {
-        context.fillStyle = 'red';
-      }
-      context.fillRect(columnIndex, valueIndex, 1, 1);
-    }
-  }
 
   window.requestAnimationFrame(makeStepFrame(state));
 }
