@@ -3,28 +3,21 @@ import { State, Size } from './types.js'
 export function makeStepFrame(state: State) {
   return (timeStamp: number) => {
     let windowSize = state.windowSizeState.getWindowSize();
-    let fpsText = '';
-    let millisecondsPassed = timeStamp - state.previousTimeStamp;
     const context = state.context;
 
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.fillStyle = 'black';
     context.fillRect(0, 0, windowSize.width, windowSize.height);
 
-    let fps = Math.round(1000 / millisecondsPassed);
-    if (fps < 0 || isNaN(fps)) {
-      fps = 0;
-    }
-    if (fps > 1000) {
-      fps = 1000;
+    const infoText = windowSize.width.toString() + '✕' + windowSize.height.toString();
+    context.font = '30px Arial';
+    const textMetrics = context.measureText(infoText);
+    const textSize = {
+      width: Math.abs(textMetrics.actualBoundingBoxLeft) + Math.abs(textMetrics.actualBoundingBoxRight),
+      height: Math.abs(textMetrics.actualBoundingBoxAscent) + Math.abs(textMetrics.actualBoundingBoxDescent)
     }
 
     const wheel = state.wheelState.consumeWheelEvents();
-    fpsText
-      = wheel.deltaX.toString()
-      + ' x '
-      + wheel.deltaY.toString();
-
     const clamp = (n: number, min: number, max: number) =>
       Math.max(Math.min(n, max), min);
     const oldScrollPosition = state.scrollPosition;
@@ -35,43 +28,33 @@ export function makeStepFrame(state: State) {
       height: arrayCombos.length
     };
 
+    const adjustedWindowSize = {
+      width: windowSize.width,
+      height: Math.max(0, windowSize.height - textSize.height)
+    }
     const scrollPosition = {
       xOffset:
         clamp(
           oldScrollPosition.xOffset - wheel.deltaX,
           -(Math.abs(contentSize.width - 1) - 2),
-          Math.abs(windowSize.width - 1) - 2,
+          Math.abs(adjustedWindowSize.width - 1) - 2,
         ),
       yOffset:
         clamp(
           oldScrollPosition.yOffset - wheel.deltaY,
           -(Math.abs(contentSize.height) - 2),
-          Math.abs(windowSize.height) - 2
+          Math.abs(adjustedWindowSize.height) - 2
         )
     };
     context.putImageData(state.imageData,
       scrollPosition.xOffset,
       scrollPosition.yOffset);
 
-    /*
-        fpsText = 'FPS: ' + fps
-          // + ' ' + windowSize.width + 'x' + windowSize.height;
-          + ' Βίβλος γενέσεως Ἰησοῦ '
-          + 'בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים';
-    */
-    /*
-        context.font = '30px SBL Hebrew';
-        context.fillStyle = 'black';
-        let textMetrics = context.measureText(fpsText);
-        context.fillStyle = '#ddffdd';
-        context.fillRect(
-          0, 0,
-          Math.abs(textMetrics.actualBoundingBoxLeft) + Math.abs(textMetrics.actualBoundingBoxRight),
-          Math.abs(textMetrics.actualBoundingBoxAscent) + Math.abs(textMetrics.actualBoundingBoxDescent));
-    
-        context.fillStyle = 'black';
-        context.fillText(fpsText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
-    */
+    context.fillStyle = 'black';
+    context.fillRect(0, 0, windowSize.width, textSize.height);
+    context.fillStyle = 'white';
+    context.fillText(infoText, 0, Math.abs(textMetrics.actualBoundingBoxAscent));
+
     const newState = {
       ...state,
       previousTimeStamp: timeStamp,
