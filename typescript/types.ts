@@ -32,6 +32,7 @@ export type State = {
   canvas: HTMLCanvasElement;
   content: Content;
   context: CanvasRenderingContext2D;
+  imageData: ImageData;
   previousTimeStamp: number;
   scrollPosition: ScrollPosition;
   wheelState: WheelState;

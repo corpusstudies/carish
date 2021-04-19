@@ -30,13 +30,9 @@ export function makeStepFrame(state: State) {
     const oldScrollPosition = state.scrollPosition;
 
     const { arrayCombos, columnCount } = state.content;
-    const scale = {
-      width: 20,
-      height: 20
-    };
     const contentSize = {
-      width: columnCount * scale.width,
-      height: arrayCombos.length * scale.height
+      width: columnCount,
+      height: arrayCombos.length
     };
 
     const scrollPosition = {
@@ -53,30 +49,9 @@ export function makeStepFrame(state: State) {
           Math.abs(windowSize.height) - 2
         )
     };
-    context.setTransform(1, 0, 0, 1,
+    context.putImageData(state.imageData,
       scrollPosition.xOffset,
       scrollPosition.yOffset);
-
-    context.scale(scale.width, scale.height);
-  
-    for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
-      const values = arrayCombos[valueIndex];
-      for (let columnIndex = 0; columnIndex < values.length; columnIndex += 1) {
-        const rowByteCount = values.length * 4;
-        const pixelIndex = rowByteCount * valueIndex;
-        let color;
-        if (values[columnIndex] === 0) {
-          context.fillStyle = 'black';
-        } else if (values[columnIndex] === 1) {
-          context.fillStyle = 'blue';
-        } else if (values[columnIndex] === 2) {
-          context.fillStyle = 'green';
-        } else {
-          context.fillStyle = 'red';
-        }
-        context.fillRect(columnIndex, valueIndex, 1, 1);
-      }
-    }
 
     /*
         fpsText = 'FPS: ' + fps

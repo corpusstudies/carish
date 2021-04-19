@@ -5,11 +5,11 @@ import { makeWheelState } from './wheel-state.js';
 import { makeWindowSizeState } from './window-size-state.js';
 
 export function init() {
-  const valueCount = 2;
-  const columnCount = 8;
+  const valueCount = 4;
+  const columnCount = 10;
   const possibleValues = enumerateValues(valueCount);
   const arrayCombos = enumerateList(possibleValues, columnCount);
-  console.log(arrayCombos);
+  console.log({valueCount: arrayCombos.length});
 
   const windowSizeState = makeWindowSizeState();
   const canvas = makeCanvas(windowSizeState.getWindowSize());
@@ -20,19 +20,47 @@ export function init() {
     return;
   }
 
+  const imageData = context.createImageData(columnCount, arrayCombos.length);
+  const imageArray = imageData.data;
+  for (let valueIndex = 0; valueIndex < arrayCombos.length; valueIndex += 1) {
+    const values = arrayCombos[valueIndex];
+    for (let columnIndex = 0; columnIndex < values.length; columnIndex += 1) {
+      const rowByteCount = columnCount * 4;
+      const rowByteStart = rowByteCount * valueIndex;
+      const pixelIndex = rowByteStart + (columnIndex * 4);
+      let red = 0;
+      let green = 0;
+      let blue = 0;
+      if (values[columnIndex] === 0) {
+        // black
+      } else if (values[columnIndex] === 1) {
+        blue = 255;
+      } else if (values[columnIndex] === 2) {
+        green = 255;
+      } else {
+        red = 255;
+      }
+      imageArray[pixelIndex + 0] = red;
+      imageArray[pixelIndex + 1] = green;
+      imageArray[pixelIndex + 2] = blue;
+      imageArray[pixelIndex + 3] = 255;
+    }
+  }
+
   const wheelState = makeWheelState();
   let state: State =
   {
-    windowSizeState,
-    context,
     canvas,
+    content: { arrayCombos, columnCount },
+    context,
+    imageData,
     previousTimeStamp: 0,
-    wheelState,
     scrollPosition: {
       xOffset: 0,
       yOffset: 0
     },
-    content: { arrayCombos, columnCount }
+    wheelState,
+    windowSizeState,
   };
 
   window.addEventListener('resize',
